@@ -5,13 +5,25 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using MatakDBConnector;
-
+using MatakAPI.Models;
 
 namespace MatakAPI.Controllers
 {
     [ApiController]
     public class RouteController : Controller
     {
+
+
+        [HttpPost("TEMP")]
+        public IActionResult PostTemp()
+        {
+
+            RouteObj minRoute = new RouteObj();
+            minRoute.orgId = 0;
+            return Ok("Temp") ;
+        }
+
+
         [HttpPost("GetAllRoutes")]
         public IActionResult GetAllRoutes()
         {
