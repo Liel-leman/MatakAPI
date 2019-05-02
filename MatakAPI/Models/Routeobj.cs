@@ -7,22 +7,23 @@ namespace MatakAPI.Models
 {
     public class RouteObj
     {
-        public int routeId { get; set; }
-        public string name { get; set; }
-        public DateTime startDatetime { get; set; }
-        public DateTime endDatetime { get; set; }
-        public int geojsonDocId { get; set; }
-        public int reasonId { get; set; }
-        public int priorityId { get; set; }
-        public int statusId { get; set; }
-        public int orgId { get; set; }
-        public int createdByUserId { get; set; }
-        public int sentToUserId { get; set; }
-        public int approvedByUserId { get; set; }
-        public string note { get; set; }
+        public int RouteId { get; set; }
+        public string Name { get; set; }
+        public DateTime StartDatetime { get; set; }
+        public DateTime EndDatetime { get; set; }
+        public int GeojsonDocId { get; set; }
+        public int ReasonId { get; set; }
+        public int PriorityId { get; set; }
+        public int StatusId { get; set; }
+        public int OrgId { get; set; }
+        public int CreatedByUserId { get; set; }
+        public int SentToUserId { get; set; }
+        public int ApprovedByUserId { get; set; }
+        public string Note { get; set; }
+        public string GeoJsonString { get; set; }
 
 
 
-       
+
     }
 }

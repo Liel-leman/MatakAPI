@@ -6,6 +6,9 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using MatakDBConnector;
 using MatakAPI.Models;
+//using BAMCIS.GeoJSON;
+using Newtonsoft.Json;
+using GeoJSON.Net.Feature;
 
 namespace MatakAPI.Controllers
 {
@@ -13,15 +16,20 @@ namespace MatakAPI.Controllers
     public class RouteController : Controller
     {
 
+        
+        /* [HttpPost("setRouteTest")]
+         public IActionResult PostTemp([FromBody]string geojson)
+         {
 
-        [HttpPost("TEMP")]
-        public IActionResult PostTemp()
-        {
+             string errorString = null;
+             SetRoute setter = new SetRoute();
 
-            RouteObj minRoute = new RouteObj();
-            minRoute.orgId = 0;
-            return Ok("Temp") ;
-        }
+             setter.AddNewRoute("Dummy Route", DateTime.Now, DateTime.MaxValue, 0, 0, 0, 0, 0, 0,
+                 "creation method test", geojson, out errorString);
+
+             return Ok(errorString);
+         }
+         */
 
 
         [HttpPost("GetAllRoutes")]
