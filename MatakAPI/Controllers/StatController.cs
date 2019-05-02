@@ -8,7 +8,7 @@ using MatakDBConnector;
 
 namespace MatakAPI.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("api/Status")]
     [ApiController]
     public class StatController : ControllerBase
     {

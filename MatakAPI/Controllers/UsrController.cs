@@ -9,11 +9,11 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace MatakAPI.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("api/User")]
     [ApiController]
     public class UsrController : ControllerBase
     {
-        // GET: api/Usr/GetAll
+        // GET: api/User/GetAll
         [HttpGet("GetAll")]
         public IActionResult GetAll()
         {

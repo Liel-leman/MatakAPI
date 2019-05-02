@@ -15,13 +15,9 @@ namespace MatakAPI.Controllers
         public ActionResult<IEnumerable<string>> startPage()
         {
             return Ok(
-                "** Welcome to matak APP ** "
-                + System.Environment.NewLine +
-                " all the methodes are [HttpPost]"
-                + System.Environment.NewLine +
-                " https://matakcloud.azurewebsites.net/GetAllRoutes - get all the routes  "
+                "** Welcome to matak API ** "
                  + System.Environment.NewLine +
-                " https://matakcloud.azurewebsites.net/GetRoute/{id} - get spesific route "
+                " https://documenter.getpostman.com/view/7173606/S1LsXpsP - Rest API for Matak Project fully described "
             );
         }
     }

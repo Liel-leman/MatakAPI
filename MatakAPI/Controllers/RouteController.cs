@@ -52,8 +52,8 @@ namespace MatakAPI.Controllers
 
         }
 
-        // Get: /api/Route/GetRoute/5
-        [HttpGet("GetRoute/{%d}")]    
+        // Get: /api/Route/5
+        [HttpGet("{%d}")]    
         public IActionResult GetRoute(int id)
         {
             string errorString = null;
@@ -62,16 +62,6 @@ namespace MatakAPI.Controllers
             return new JsonResult(myRoute);
         }
 
-        // POST: /api/Route/SetRoute
-        [HttpGet("SetRoute")]
-        public IActionResult SetRoute()
-        {
-            return Ok("You have Update the Route.");
-        }
-        [HttpPost]
-        public IActionResult DeleteRoute()
-        {
-            return Ok("You have Deleted the Route.");
-        } 
+       
     }
 }

@@ -9,7 +9,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace MatakAPI.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("api/Vehicle")]
     [ApiController]
     public class VehController : ControllerBase
     {
