@@ -27,11 +27,8 @@ namespace MatakAPI
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
-            services
-    .AddMvc(options =>
-    {
-        options.InputFormatters.Insert(0, new RawJsonBodyInputFormatter());
-    });
+            services.AddMvc(options => {options.InputFormatters.Insert(0, new RawJsonBodyInputFormatter()); });//translating Json to string
+
         }
       
 

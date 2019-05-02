@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
-
+//class that translating Jsons To string
 namespace MatakAPI.Models
 {
     public class RawJsonBodyInputFormatter : InputFormatter

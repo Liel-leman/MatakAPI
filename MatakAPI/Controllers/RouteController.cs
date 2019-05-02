@@ -12,27 +12,36 @@ using GeoJSON.Net.Feature;
 
 namespace MatakAPI.Controllers
 {
+    [Route("api/[controller]")]
     [ApiController]
     public class RouteController : Controller
     {
+        /*
+        // POST: /api/Route/setGeoJSON
+        [HttpGet("setGeoJSON")]
+        [HttpPost]
+        public IActionResult setGeoJSON([FromBody]string geojson)
+        {
+            return Ok(geojson);
+        }
 
-        
-        /* [HttpPost("setRouteTest")]
-         public IActionResult PostTemp([FromBody]string geojson)
-         {
+        */
+        // POST: /api/Route/setRoute
+        [HttpPost("SetRoute")]
+        public IActionResult setRoute([FromBody] Route newRoute)
+        {
 
-             string errorString = null;
-             SetRoute setter = new SetRoute();
+            string errorString = null;
+            SetRoute setter = new SetRoute();
 
-             setter.AddNewRoute("Dummy Route", DateTime.Now, DateTime.MaxValue, 0, 0, 0, 0, 0, 0,
-                 "creation method test", geojson, out errorString);
+            setter.AddNewRoute(newRoute,out errorString);
 
-             return Ok(errorString);
-         }
-         */
+            return Ok(errorString);
+        }
 
 
-        [HttpPost("GetAllRoutes")]
+        // POST: /api/Route/GetAll
+        [HttpGet("GetAll")]
         public IActionResult GetAllRoutes()
         {
             string errorString = null;
@@ -42,7 +51,9 @@ namespace MatakAPI.Controllers
             return new JsonResult(obj);
 
         }
-        [HttpGet("GetRoute/{id}")]
+
+        // Get: /api/Route/GetRoute/5
+        [HttpGet("GetRoute/{%d}")]    
         public IActionResult GetRoute(int id)
         {
             string errorString = null;
@@ -51,42 +62,16 @@ namespace MatakAPI.Controllers
             return new JsonResult(myRoute);
         }
 
-        [HttpPost("SetRoute")]
+        // POST: /api/Route/SetRoute
+        [HttpGet("SetRoute")]
         public IActionResult SetRoute()
         {
             return Ok("You have Update the Route.");
         }
-        [HttpPost("DeleteRoute")]
+        [HttpPost]
         public IActionResult DeleteRoute()
         {
             return Ok("You have Deleted the Route.");
-        }
-
-        [HttpGet("HomePage")]
-        public ActionResult<IEnumerable<string>> HomePage()
-        {
-            return Ok(
-                "** Welcome to matak APP ** "
-                + System.Environment.NewLine +
-                " all the methodes are [HttpPost]"
-                + System.Environment.NewLine +
-                " https://matakcloud.azurewebsites.net/GetAllRoutes - get all the routes  "
-                 + System.Environment.NewLine +
-                " https://matakcloud.azurewebsites.net/GetRoute/{id} - get spesific route "
-            );
-        }
-        [HttpGet("")]
-        public ActionResult<IEnumerable<string>> startPage()
-        {
-            return Ok(
-                "** Welcome to matak APP ** "
-                + System.Environment.NewLine +
-                " all the methodes are [HttpPost]"
-                + System.Environment.NewLine +
-                " https://matakcloud.azurewebsites.net/GetAllRoutes - get all the routes  "
-                 + System.Environment.NewLine +
-                " https://matakcloud.azurewebsites.net/GetRoute/{id} - get spesific route "
-            );
-        }
+        } 
     }
 }
