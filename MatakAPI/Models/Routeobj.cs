@@ -1,4 +1,5 @@
-﻿using System;
+﻿using MatakDBConnector;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -21,7 +22,6 @@ namespace MatakAPI.Models
         public int ApprovedByUserId { get; set; }
         public string Note { get; set; }
         public string GeoJsonString { get; set; }
-
 
 
 
