@@ -31,16 +31,17 @@ namespace MatakAPI.Controllers
         public IActionResult setRoute([FromBody] Route newRoute)
         {
 
-            //string errorString = null;
-            //SetRoute setter = new SetRoute();
-            //setter.AddNewRoute(newRoute,out errorString);
-            //return Ok(errorString);
-
-
             string errorString = null;
+            int count = 0;
             RouteController RouteCont = new RouteController();
-            RouteCont.AddNewRoute(newRoute, out errorString);
-            return new JsonResult(errorString);
+            OrganizationController orgCont = new OrganizationController();
+            count = RouteCont.GetRoutesCountByOrgId(newRoute.OrgId,out errorString);
+            newRoute.Name = orgCont.getOrganizationById(newRoute.OrgId, out errorString).Name;
+            newRoute.Name += " "+count+1;
+            RouteCont = new RouteController();
+            newRoute.RouteId = RouteCont.AddNewRoute(newRoute, out errorString);
+            RouteObj obj = new RouteObj(newRoute);
+            return new JsonResult(obj);
 
 
         }
@@ -50,16 +51,13 @@ namespace MatakAPI.Controllers
         [HttpGet("GetAll")]
         public IActionResult GetAllRoutes()
         {
-            //string errorString = null;
-            //GetRoute getter = new GetRoute();
-
-            //List<Route> obj = getter.AllRoutes(out errorString);
-            //return new JsonResult(obj);
-
+           
             string errorString = null;
             RouteController RouteCont = new RouteController();
             List<Route> obj = RouteCont.GetAllRoutes(out errorString);
             return new JsonResult(obj);
+
+
 
         }
 
@@ -67,18 +65,30 @@ namespace MatakAPI.Controllers
         [HttpGet("{id}")]    
         public IActionResult GetRoute(int id)
         {
-            //string errorString = null;
-            //GetRoute getter = new GetRoute();
-            //Route myRoute = getter.ById(id, out errorString);
-            //return new JsonResult(myRoute);
+           
             string errorString = null;
             RouteController RouteCont = new RouteController();
             
             Route obj = RouteCont.GetRouteById(id, out errorString);
-            return new JsonResult(obj);
-            
+            if (obj != null && errorString == null)
+            {
+                return new JsonResult(obj);
+            }
+            else
+            {
+                return BadRequest("cant find");
+            }
+
         }
 
-       
+        [HttpPost("GetReasons")]
+        public IActionResult GetReasons()
+        {
+            string errorString = null;
+            ReasonController reasonController = new ReasonController();
+            List<Reason> obj = reasonController.GetAllReasons(out errorString);
+            return new JsonResult(obj);
+        }
+
     }
 }
