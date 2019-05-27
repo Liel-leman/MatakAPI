@@ -19,7 +19,7 @@ namespace MatakAPI.Controllers
         {
             string errorString = null;
             List<OrgObj> OrgObjects = new List<OrgObj>();
-            OrganizationModel orgCont = new OrganizationModel();
+            OrganizationController orgCont = new OrganizationController();
             List<Organization> obj = orgCont.getAllOrganizations(out errorString);
             foreach (var org in obj)
             {

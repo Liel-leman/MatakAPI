@@ -8,16 +8,16 @@ using MatakDBConnector;
 
 namespace MatakAPI.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("api/Status")]
     [ApiController]
-    public class StatusController : ControllerBase
+    public class StatController : ControllerBase
     {
         // GET: api/Stat/GetAll
         [HttpGet("GetAll")]
         public IActionResult GetAll()
         {
             string errorString = null;
-            StatusModel StatusCont = new StatusModel();
+            StatusController StatusCont = new StatusController();
             List<Status> obj = StatusCont.getAllStati(out errorString);
             return new JsonResult(obj);
 

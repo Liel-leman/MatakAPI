@@ -12,9 +12,9 @@ using GeoJSON.Net.Feature;
 
 namespace MatakAPI.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("api/Route")]
     [ApiController]
-    public class RouteController : Controller
+    public class RouteAPIController : Controller
     {
         /*
         // POST: /api/Route/setGeoJSON
@@ -24,10 +24,8 @@ namespace MatakAPI.Controllers
         {
             return Ok(geojson);
         }
+
         */
-
-
-
         // POST: /api/Route/setRoute
         [HttpPost("SetRoute")]
         public IActionResult setRoute([FromBody] Route newRoute)
@@ -35,27 +33,13 @@ namespace MatakAPI.Controllers
 
             string errorString = null;
             int count = 0;
-            RouteModel routeModel = new RouteModel();
-            OrganizationModel orgCont = new OrganizationModel();
-            count = routeModel.GetRoutesCountByOrgId(newRoute.OrgId,out errorString);
+            RouteController RouteCont = new RouteController();
+            OrganizationController orgCont = new OrganizationController();
+            count = RouteCont.GetRoutesCountByOrgId(newRoute.OrgId,out errorString);
             newRoute.Name = orgCont.getOrganizationById(newRoute.OrgId, out errorString).Name;
             newRoute.Name += " "+count+1;
-            newRoute.RouteId = routeModel.AddNewRoute(newRoute, out errorString);
-            RouteObj obj = new RouteObj(newRoute);
-            return new JsonResult(obj);
-
-
-        }
-
-        [HttpPost("UpdateRoute")]
-        public IActionResult UpdateRoute([FromBody] Route newRoute)
-        {
-
-            string errorString = null;
-            RouteModel routeModel = new RouteModel();
-            if(newRoute.RouteId==0)
-                return BadRequest("please enter ID");
-            newRoute.RouteId = routeModel.UpdateRouteId(newRoute, out errorString);
+            RouteCont = new RouteController();
+            newRoute.RouteId = RouteCont.AddNewRoute(newRoute, out errorString);
             RouteObj obj = new RouteObj(newRoute);
             return new JsonResult(obj);
 
@@ -69,8 +53,8 @@ namespace MatakAPI.Controllers
         {
            
             string errorString = null;
-            RouteModel routeModel = new RouteModel();
-            List<Route> obj = routeModel.GetAllRoutes(out errorString);
+            RouteController RouteCont = new RouteController();
+            List<Route> obj = RouteCont.GetAllRoutes(out errorString);
             return new JsonResult(obj);
 
 
@@ -83,9 +67,9 @@ namespace MatakAPI.Controllers
         {
            
             string errorString = null;
-            RouteModel routeModel = new RouteModel();
+            RouteController RouteCont = new RouteController();
             
-            Route obj = routeModel.GetRouteById(id, out errorString);
+            Route obj = RouteCont.GetRouteById(id, out errorString);
             if (obj != null && errorString == null)
             {
                 return new JsonResult(obj);
@@ -101,7 +85,7 @@ namespace MatakAPI.Controllers
         public IActionResult GetReasons()
         {
             string errorString = null;
-            ReasonModel reasonController = new ReasonModel();
+            ReasonController reasonController = new ReasonController();
             List<Reason> obj = reasonController.GetAllReasons(out errorString);
             return new JsonResult(obj);
         }
