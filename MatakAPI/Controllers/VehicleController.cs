@@ -9,25 +9,24 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace MatakAPI.Controllers
 {
-    [Route("api/User")]
+    [Route("api/[controller]")]
     [ApiController]
-    public class UsrController : ControllerBase
+    public class VehicleController : ControllerBase
     {
-        // GET: api/User/GetAll
+        // GET: api/Veh/GetAll
         [HttpGet("GetAll")]
         public IActionResult GetAll()
         {
             string errorString = null;
-            List<UsrObj> UsrObjects = new List<UsrObj>();
-            UserController UserCont = new UserController();
-            List<User> obj = UserCont.getAllUsers(out errorString);
+            List<VehObj> vehObjects = new List<VehObj>();
+            VehicleModel vehicleModel = new VehicleModel();
+            List<Vehicle> obj = vehicleModel.getAllVehicles(out errorString);
             foreach (var item in obj)
             {
-                UsrObjects.Add(new UsrObj(item));
+                vehObjects.Add(new VehObj(item));
             }
-            return new JsonResult(UsrObjects);
+            return new JsonResult(vehObjects);
 
         }
-        
     }
 }
