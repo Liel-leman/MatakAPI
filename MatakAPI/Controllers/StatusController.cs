@@ -5,9 +5,11 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using MatakDBConnector;
+using Microsoft.AspNetCore.Authorization;
 
 namespace MatakAPI.Controllers
 {
+    [Authorize]
     [Route("api/[controller]")]
     [ApiController]
     public class StatusController : ControllerBase
@@ -17,9 +19,16 @@ namespace MatakAPI.Controllers
         public IActionResult GetAll()
         {
             string errorString = null;
-            StatusModel StatusModel = new StatusModel();
-            List<Status> obj = StatusModel.getAllStati(out errorString);
-            return new JsonResult(obj);
+            try
+            {
+                StatusModel StatusModel = new StatusModel();
+                List<Status> obj = StatusModel.getAllStati(out errorString);
+                return new JsonResult(obj);
+            }
+            catch (Exception e)
+            {
+                return Ok(e + "\n" + errorString);
+            }
 
         }
 

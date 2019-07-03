@@ -39,7 +39,7 @@ namespace MatakAPI
                     ValidateIssuerSigningKey = true,
                     ValidIssuer = "MatakAPP.com",
                     ValidAudience = "MatakAPP.com",
-                    IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes("secretPass"))
+                    IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes("secretPasshfkdshkjhdskfghjg"))
                 };
             });
             services.AddCors();

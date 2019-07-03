@@ -4,11 +4,13 @@ using System.Linq;
 using System.Threading.Tasks;
 using MatakAPI.Models;
 using MatakDBConnector;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace MatakAPI.Controllers
 {
+    [Authorize]
     [Route("api/[controller]")]
     [ApiController]
     public class UserController : ControllerBase
@@ -18,24 +20,38 @@ namespace MatakAPI.Controllers
         public IActionResult GetAll()
         {
             string errorString = null;
-            List<UsrObj> UsrObjects = new List<UsrObj>();
-            UserModel UserModel = new UserModel();
-            List<User> obj = UserModel.getAllUsers(out errorString);
-            foreach (var item in obj)
+            try
             {
-                UsrObjects.Add(new UsrObj(item));
+                List<UsrObj> UsrObjects = new List<UsrObj>();
+                UserModel UserModel = new UserModel();
+                List<User> obj = UserModel.getAllUsers(out errorString);
+                foreach (var item in obj)
+                {
+                    UsrObjects.Add(new UsrObj(item));
+                }
+                return new JsonResult(UsrObjects);
             }
-            return new JsonResult(UsrObjects);
+            catch (Exception e)
+            {
+                return Ok(e + "\n" + errorString);
+            }
 
         }
         [HttpGet("GetAllFull")]
         public IActionResult GetAllFull()
         {
             string errorString = null;
-            UserModel UserModel = new UserModel();
-            List<User> obj = UserModel.getAllUsers(out errorString);
-            
-            return new JsonResult(obj);
+            try
+            {
+                UserModel UserModel = new UserModel();
+                List<User> obj = UserModel.getAllUsers(out errorString);
+
+                return new JsonResult(obj);
+            }
+            catch (Exception e)
+            {
+                return Ok(e + "\n" + errorString);
+            }
 
         }
 
