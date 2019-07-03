@@ -21,8 +21,7 @@ namespace MatakAPI.Controllers
             {
                 var header = Request.Headers["Authorization"];
                 UserModel usrModel = new UserModel();
-                User user = new User();
-
+                List<User> obj = usrModel.getAllUsers(out errorString);
 
                 if (header.ToString().StartsWith("Basic"))
                 {
@@ -34,9 +33,18 @@ namespace MatakAPI.Controllers
                     userAuth.Password = usernameAndPass[1];
                     if (usrModel.authenticateUser(usernameAndPass[0], usernameAndPass[1], out errorString))
                     {
-
-                        var claimsdata = new[] { new Claim("role", usernameAndPass[0])
-                                            ,new Claim("usrId","100")};// יהיה מתודה שמחזירה את שם הארגון אם הוא מת"ק usernameAndPass[0] 
+                        foreach (var item in obj)
+                        {
+                            if (userAuth.Email == item.Email)
+                                userAuth = item;
+                        }
+                        var claimsdata = new[] { new Claim("Email",userAuth.Email.ToString())
+                                            ,new Claim("FirstName", userAuth.FirstName.ToString())
+                                            ,new Claim("LastName", userAuth.OrgId.ToString())
+                                            ,new Claim("orgId", userAuth.OrgId.ToString())
+                                            ,new Claim("PermissionId", userAuth.PermissionId.ToString())
+                                            ,new Claim("UsedId", userAuth.UsedId.ToString())               
+                        };
                         var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes("secretPasshfkdshkjhdskfghjg"));
                         var signInCred = new SigningCredentials(key, SecurityAlgorithms.HmacSha256Signature);
                         var token = new JwtSecurityToken(

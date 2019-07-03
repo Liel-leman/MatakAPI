@@ -19,7 +19,9 @@ namespace MatakAPI.Controllers
         [HttpGet("GetAll")]
         public IActionResult GetAll()
         {
-            //return Ok(User.Claims.FirstOrDefault(x => x.Type.Equals("usrId")).Value);
+            
+            
+           // return Ok(User.Claims.FirstOrDefault(x => x.Type.Equals("orgId")).Value);
 
             string errorString = null;
             try
