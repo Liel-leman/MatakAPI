@@ -48,8 +48,8 @@ namespace MatakAPI.Controllers
                         var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes("secretPasshfkdshkjhdskfghjg"));
                         var signInCred = new SigningCredentials(key, SecurityAlgorithms.HmacSha256Signature);
                         var token = new JwtSecurityToken(
-                            issuer: "MatakAPP.com",//????
-                            audience: "MatakAPP.com",//????????
+                            issuer: "http://212.179.205.15/MatakAPI",//????
+                            audience: "http://212.179.205.15/MatakAPI",//????????
                             expires: DateTime.Now.AddMinutes(30),
                             claims: claimsdata,
                             signingCredentials: signInCred
