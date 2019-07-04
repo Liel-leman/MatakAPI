@@ -41,7 +41,8 @@ namespace MatakAPI.Controllers
                 OrganizationModel orgModel = new OrganizationModel();
                 count = RouteModel.GetRoutesCountByOrgId(newRoute.OrgId, out errorString);
                 newRoute.Name = orgModel.getOrganizationById(newRoute.OrgId, out errorString).Name;
-                newRoute.Name += " " + count + 1;
+                newRoute.Name += " " + (count + 1);
+                newRoute.CreatedByUserId = Int32.Parse(User.Claims.FirstOrDefault(x => x.Type.Equals("UsedId")).Value);
                 newRoute.RouteId = RouteModel.AddNewRoute(newRoute, out errorString);
                 RouteObj obj = new RouteObj(newRoute);
                 return new JsonResult(obj);
@@ -131,6 +132,59 @@ namespace MatakAPI.Controllers
             {
                 ReasonModel reasonModel = new ReasonModel();
                 List<Reason> obj = reasonModel.GetAllReasons(out errorString);
+                return new JsonResult(obj);
+            }
+            catch (Exception e)
+            {
+                return Ok(e + "\n" + errorString);
+            }
+        }
+
+        [Route("GetRouteByOrgID/{Orgid}")]
+        [HttpGet]
+        public IActionResult GetRouteByOrgID(int Orgid)
+        {
+            string errorString = null;
+            try
+            {
+                RouteModel RouteMethods = new RouteModel();
+                List<Route> obj = RouteMethods.GetAllRoutesByOrgId(Orgid, out errorString);
+                return new JsonResult(obj);
+            }
+            catch(Exception e)
+            {
+                return Ok(e + "\n" + errorString);
+            }
+        }
+
+        [Route("GetRouteByCreatorID/{userid}")]
+        [HttpGet]
+        public IActionResult GetRouteByCreatorID(int userid)
+        {
+            string errorString = null;
+            try
+            {
+                RouteModel RouteMethods = new RouteModel();
+                List<Route> obj = RouteMethods.GetAllRoutesByCreatorId(userid, out errorString);
+                return new JsonResult(obj);
+            }
+            catch (Exception e)
+            {
+                return Ok(e + "\n" + errorString);
+            }
+        }
+
+        [Route("GetRoutByReceiverId")]
+        [HttpGet]
+        public IActionResult GetRoutByReceiverId()
+        {
+            
+            string errorString = null;
+            try
+            {
+                int MyID = Int32.Parse(User.Claims.FirstOrDefault(x => x.Type.Equals("UsedId")).Value);
+                RouteModel RouteMethods = new RouteModel();
+                List<Route> obj = RouteMethods.GetAllRoutesByReceiverId(MyID, out errorString);
                 return new JsonResult(obj);
             }
             catch (Exception e)

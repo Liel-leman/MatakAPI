@@ -55,5 +55,30 @@ namespace MatakAPI.Controllers
 
         }
 
+        [HttpGet("GetCurrentUser")]
+        public IActionResult GetCurrentUser()
+        {
+            string errorString = null;
+            try
+            {
+                int id = Int32.Parse(User.Claims.FirstOrDefault(x => x.Type.Equals("UsedId")).Value);
+                User usr = new User();
+                UserModel UserModel = new UserModel();
+                List<User> obj = UserModel.getAllUsers(out errorString);
+                foreach (var item in obj)
+                {
+                    if (item.UsedId == id)
+                        usr = item;
+                }
+                return new JsonResult(usr);
+            }
+            catch (Exception e)
+            {
+                return Ok(e + "\n" + errorString);
+            }
+
+        }
+
+
     }
 }
