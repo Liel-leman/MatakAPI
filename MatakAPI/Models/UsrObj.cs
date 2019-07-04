@@ -22,4 +22,5 @@ namespace MatakAPI.Models
             Nickname = usr.Nickname;
         }
     }
+
 }
