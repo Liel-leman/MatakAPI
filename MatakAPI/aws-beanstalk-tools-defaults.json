@@ -1,0 +1,11 @@
+
+{
+    "comment" : "This file is used to help set default values when using the dotnet CLI extension Amazon.ElasticBeanstalk.Tools. For more information run \"dotnet eb --help\" from the project root.",
+    "profile" : "Eli1809",
+    "region"  : "us-west-2",
+    "application" : "MatakAPI",
+    "environment" : "MatakAPI-test",
+    "iis-website" : "Default Web Site",
+    "app-path"    : "/",
+    "enable-xray" : false
+}

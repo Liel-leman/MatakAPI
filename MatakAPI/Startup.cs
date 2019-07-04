@@ -29,7 +29,7 @@ namespace MatakAPI
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-
+            services.AddCors();
             services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).AddJwtBearer(options =>
             {
                 options.TokenValidationParameters = new TokenValidationParameters
@@ -43,7 +43,6 @@ namespace MatakAPI
                     IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes("secretPasshfkdshkjhdskfghjg"))
                 };
             });
-            services.AddCors();
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
             services.AddMvc(options => {options.InputFormatters.Insert(0, new RawJsonBodyInputFormatter()); });//translating Json to string
 
@@ -66,7 +65,7 @@ namespace MatakAPI
             app.UseCors(options => options.AllowAnyOrigin()
                                          .AllowAnyMethod()
                                          .AllowAnyHeader()
-                                         .AllowCredentials()) ;
+                                         .AllowCredentials());
 
             app.UseHttpsRedirection();
             app.UseAuthentication();

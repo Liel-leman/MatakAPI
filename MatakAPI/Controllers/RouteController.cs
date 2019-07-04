@@ -9,9 +9,11 @@ using MatakAPI.Models;
 //using BAMCIS.GeoJSON;
 using Newtonsoft.Json;
 using GeoJSON.Net.Feature;
+using Microsoft.AspNetCore.Authorization;
 
 namespace MatakAPI.Controllers
 {
+    [Authorize]
     [Route("api/Route")]
     [ApiController]
     public class RouteController : Controller

@@ -31,7 +31,7 @@ namespace MatakAPI.Controllers
                     User userAuth = new User();
                     userAuth.Email = usernameAndPass[0];
                     userAuth.Password = usernameAndPass[1];
-                    if (usrModel.authenticateUser(userAuth.Email, userAuth.Password , out errorString))
+                    if (usrModel.authenticateUser(userAuth.Email, userAuth.Password, out errorString))
                     {
                         foreach (var item in obj)
                         {
@@ -43,7 +43,7 @@ namespace MatakAPI.Controllers
                                             ,new Claim("LastName", userAuth.OrgId.ToString())
                                             ,new Claim("orgId", userAuth.OrgId.ToString())
                                             ,new Claim("PermissionId", userAuth.PermissionId.ToString())
-                                            ,new Claim("UsedId", userAuth.UsedId.ToString())               
+                                            ,new Claim("UsedId", userAuth.UsedId.ToString())
                         };
                         var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes("secretPasshfkdshkjhdskfghjg"));
                         var signInCred = new SigningCredentials(key, SecurityAlgorithms.HmacSha256Signature);
@@ -63,8 +63,13 @@ namespace MatakAPI.Controllers
             }
             catch (Exception e)
             {
-                return Ok(e + "\n" + errorString);
+                return BadRequest(e + "\n" + errorString);
             }
+        }
+        [HttpPost("CoresCheck")]
+        public IActionResult CoresCheck()
+        {
+            return Ok("working");
         }
     }
 }
