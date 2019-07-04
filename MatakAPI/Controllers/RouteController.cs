@@ -32,16 +32,22 @@ namespace MatakAPI.Controllers
         {
 
             string errorString = null;
-            int count = 0;
-            RouteModel RouteModel = new RouteModel();
-            OrganizationModel orgModel = new OrganizationModel();
-            count = RouteModel.GetRoutesCountByOrgId(newRoute.OrgId,out errorString);
-            newRoute.Name = orgModel.getOrganizationById(newRoute.OrgId, out errorString).Name;
-            newRoute.Name += " "+count+1;
-            newRoute.RouteId = RouteModel.AddNewRoute(newRoute, out errorString);
-            RouteObj obj = new RouteObj(newRoute);
-            return new JsonResult(obj);
-
+            try
+            {
+                int count = 0;
+                RouteModel RouteModel = new RouteModel();
+                OrganizationModel orgModel = new OrganizationModel();
+                count = RouteModel.GetRoutesCountByOrgId(newRoute.OrgId, out errorString);
+                newRoute.Name = orgModel.getOrganizationById(newRoute.OrgId, out errorString).Name;
+                newRoute.Name += " " + count + 1;
+                newRoute.RouteId = RouteModel.AddNewRoute(newRoute, out errorString);
+                RouteObj obj = new RouteObj(newRoute);
+                return new JsonResult(obj);
+            }
+            catch (Exception e)
+            {
+                return Ok(e + "\n" + errorString);
+            }
 
         }
 
@@ -50,13 +56,20 @@ namespace MatakAPI.Controllers
         {
 
             string errorString = null;
-            RouteModel routeModel = new RouteModel();
-            if (newRoute.RouteId == 0)
-                return BadRequest("please enter ID");
-            newRoute.RouteId = routeModel.UpdateRouteId(newRoute, out errorString);
-            RouteObj obj = new RouteObj(newRoute);
-            return new JsonResult(obj);
+            try
+            {
+                RouteModel routeModel = new RouteModel();
+                if (newRoute.RouteId == 0)
+                    return BadRequest("please enter ID");
+                newRoute.RouteId = routeModel.UpdateRouteId(newRoute, out errorString);
+                RouteObj obj = new RouteObj(newRoute);
+                return new JsonResult(obj);
 
+            }
+            catch (Exception e)
+            {
+                return Ok(e + "\n" + errorString);
+            }
 
         }
 
@@ -67,9 +80,16 @@ namespace MatakAPI.Controllers
         {
            
             string errorString = null;
-            RouteModel RouteCont = new RouteModel();
-            List<Route> obj = RouteCont.GetAllRoutes(out errorString);
-            return new JsonResult(obj);
+            try
+            {
+                RouteModel RouteCont = new RouteModel();
+                List<Route> obj = RouteCont.GetAllRoutes(out errorString);
+                return new JsonResult(obj);
+            }
+            catch (Exception e)
+            {
+                return Ok(e + "\n" + errorString);
+            }
 
 
 
@@ -81,27 +101,40 @@ namespace MatakAPI.Controllers
         {
            
             string errorString = null;
-            RouteModel RouteModel = new RouteModel();
-            
-            Route obj = RouteModel.GetRouteById(id, out errorString);
-            if (obj != null && errorString == null)
+            try
             {
-                return new JsonResult(obj);
-            }
-            else
-            {
-                return BadRequest("cant find");
-            }
+                RouteModel RouteModel = new RouteModel();
 
+                Route obj = RouteModel.GetRouteById(id, out errorString);
+                if (obj != null && errorString == null)
+                {
+                    return new JsonResult(obj);
+                }
+                else
+                {
+                    return BadRequest("cant find");
+                }
+            }
+            catch (Exception e)
+            {
+                return Ok(e + "\n" + errorString);
+            }
         }
 
         [HttpPost("GetReasons")]
         public IActionResult GetReasons()
         {
             string errorString = null;
-            ReasonModel reasonModel = new ReasonModel();
-            List<Reason> obj = reasonModel.GetAllReasons(out errorString);
-            return new JsonResult(obj);
+            try
+            {
+                ReasonModel reasonModel = new ReasonModel();
+                List<Reason> obj = reasonModel.GetAllReasons(out errorString);
+                return new JsonResult(obj);
+            }
+            catch (Exception e)
+            {
+                return Ok(e + "\n" + errorString);
+            }
         }
 
     }

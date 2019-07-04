@@ -29,27 +29,18 @@ namespace MatakAPI
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-<<<<<<< HEAD
-            services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
-                .AddJwtBearer(options =>
-=======
+
             services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).AddJwtBearer(options =>
->>>>>>> bfca761ac5a325e611f223b8ac9ce884192d0987
             {
                 options.TokenValidationParameters = new TokenValidationParameters
                 {
                     ValidateIssuer = true,
                     ValidateAudience = true,
                     ValidateIssuerSigningKey = true,
-<<<<<<< HEAD
-                    ValidIssuer = "MatakAPP.com",
-                    ValidAudience = "MatakAPP.com",
-                    IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes("secretPass"))
-=======
+
                     ValidIssuer = "http://212.179.205.15/MatakAPI",
                     ValidAudience = "http://212.179.205.15/MatakAPI",
                     IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes("secretPasshfkdshkjhdskfghjg"))
->>>>>>> bfca761ac5a325e611f223b8ac9ce884192d0987
                 };
             });
             services.AddCors();
@@ -71,11 +62,6 @@ namespace MatakAPI
                 // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
                 app.UseHsts();
             }
-<<<<<<< HEAD
-            app.UseAuthentication();
-=======
-            
->>>>>>> bfca761ac5a325e611f223b8ac9ce884192d0987
 
             app.UseCors(options => options.AllowAnyOrigin()
                                          .AllowAnyMethod()

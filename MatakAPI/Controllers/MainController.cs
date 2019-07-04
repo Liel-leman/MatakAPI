@@ -10,7 +10,6 @@ namespace MatakAPI.Controllers
     [ApiController]
     public class MainController : ControllerBase
     {
-        // Get: nothing to type
         [HttpGet("")]
         public ActionResult<IEnumerable<string>> startPage()
         {

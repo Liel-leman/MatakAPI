@@ -19,17 +19,6 @@ namespace MatakAPI.Controllers
         [HttpGet("GetAll")]
         public IActionResult GetAll()
         {
-<<<<<<< HEAD
-            return Ok(User.Claims.FirstOrDefault(x => x.Type.Equals("usrId")).Value);
-
-            string errorString = null;
-            List<OrgObj> OrgObjects = new List<OrgObj>();
-            OrganizationModel orgCont = new OrganizationModel();
-            List<Organization> obj = orgCont.getAllOrganizations(out errorString);
-            foreach (var org in obj)
-=======
-            
-            
            // return Ok(User.Claims.FirstOrDefault(x => x.Type.Equals("orgId")).Value);
 
             string errorString = null;
@@ -45,7 +34,6 @@ namespace MatakAPI.Controllers
                 return new JsonResult(OrgObjects);
             }
             catch (Exception e)
->>>>>>> bfca761ac5a325e611f223b8ac9ce884192d0987
             {
                 return Ok(e + "\n" + errorString);
             }
