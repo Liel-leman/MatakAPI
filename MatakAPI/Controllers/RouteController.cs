@@ -36,13 +36,15 @@ namespace MatakAPI.Controllers
             string errorString = null;
             try
             {
+                newRoute.OrgId = Int32.Parse(User.Claims.FirstOrDefault(x => x.Type.Equals("OrgId")).Value);
+                newRoute.CreatedByUserId = Int32.Parse(User.Claims.FirstOrDefault(x => x.Type.Equals("UserId")).Value);
                 int count = 0;
                 RouteModel RouteModel = new RouteModel();
                 OrganizationModel orgModel = new OrganizationModel();
                 count = RouteModel.GetRoutesCountByOrgId(newRoute.OrgId, out errorString);
                 newRoute.Name = orgModel.getOrganizationById(newRoute.OrgId, out errorString).Name;
                 newRoute.Name += " " + (count + 1);
-                newRoute.CreatedByUserId = Int32.Parse(User.Claims.FirstOrDefault(x => x.Type.Equals("UsedId")).Value);
+                
                 newRoute.RouteId = RouteModel.AddNewRoute(newRoute, out errorString);
                 RouteObj obj = new RouteObj(newRoute);
                 return new JsonResult(obj);
@@ -124,7 +126,7 @@ namespace MatakAPI.Controllers
             }
         }
 
-        [HttpPost("GetReasons")]
+        [HttpGet("GetReasons")]
         public IActionResult GetReasons()
         {
             string errorString = null;
@@ -182,7 +184,7 @@ namespace MatakAPI.Controllers
             string errorString = null;
             try
             {
-                int MyID = Int32.Parse(User.Claims.FirstOrDefault(x => x.Type.Equals("UsedId")).Value);
+                int MyID = Int32.Parse(User.Claims.FirstOrDefault(x => x.Type.Equals("UserId")).Value);
                 RouteModel RouteMethods = new RouteModel();
                 List<Route> obj = RouteMethods.GetAllRoutesByReceiverId(MyID, out errorString);
                 return new JsonResult(obj);

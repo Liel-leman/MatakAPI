@@ -41,9 +41,9 @@ namespace MatakAPI.Controllers
                         var claimsdata = new[] { new Claim("Email",userAuth.Email.ToString())
                                             ,new Claim("FirstName", userAuth.FirstName.ToString())
                                             ,new Claim("LastName", userAuth.OrgId.ToString())
-                                            ,new Claim("orgId", userAuth.OrgId.ToString())
+                                            ,new Claim("OrgId", userAuth.OrgId.ToString())
                                             ,new Claim("PermissionId", userAuth.PermissionId.ToString())
-                                            ,new Claim("UsedId", userAuth.UsedId.ToString())
+                                            ,new Claim("UserId", userAuth.UserId.ToString())
                         };
                         var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes("secretPasshfkdshkjhdskfghjg"));
                         var signInCred = new SigningCredentials(key, SecurityAlgorithms.HmacSha256Signature);

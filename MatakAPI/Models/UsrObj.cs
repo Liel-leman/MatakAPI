@@ -9,17 +9,20 @@ namespace MatakAPI.Models
     public class UsrObj
     { 
 
-        public int UsedId { get; set; }
+        public int UserId { get; set; }
+        public int OrgId { get; set; }
         public string LastName { get; set; }
         public string FirstName { get; set; }
         public string Nickname { get; set; }
 
         public UsrObj(User usr)
         {
-            UsedId = usr.UsedId;
+            OrgId = usr.OrgId;
+            UserId = usr.UserId;
             LastName = usr.LastName;
             FirstName = usr.FirstName;
             Nickname = usr.Nickname;
+
         }
     }
 

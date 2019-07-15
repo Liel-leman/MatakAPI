@@ -61,13 +61,13 @@ namespace MatakAPI.Controllers
             string errorString = null;
             try
             {
-                int id = Int32.Parse(User.Claims.FirstOrDefault(x => x.Type.Equals("UsedId")).Value);
+                int id = Int32.Parse(User.Claims.FirstOrDefault(x => x.Type.Equals("UserId")).Value);
                 User usr = new User();
                 UserModel UserModel = new UserModel();
                 List<User> obj = UserModel.getAllUsers(out errorString);
                 foreach (var item in obj)
                 {
-                    if (item.UsedId == id)
+                    if (item.UserId == id)
                         usr = item;
                 }
                 return new JsonResult(usr);
