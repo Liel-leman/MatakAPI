@@ -87,8 +87,8 @@ namespace MatakAPI.Controllers
             string errorString = null;
             try
             {
-                RouteModel RouteCont = new RouteModel();
-                List<Route> obj = RouteCont.GetAllRoutes(out errorString);
+                RouteModel routeModel = new RouteModel();
+                List<Route> obj = routeModel.GetAllRoutes(out errorString);
                 return new JsonResult(obj);
             }
             catch (Exception e)
@@ -108,9 +108,9 @@ namespace MatakAPI.Controllers
             string errorString = null;
             try
             {
-                RouteModel RouteModel = new RouteModel();
+                RouteModel routeModel = new RouteModel();
 
-                Route obj = RouteModel.GetRouteById(id, out errorString);
+                Route obj = routeModel.GetRouteById(id, out errorString);
                 if (obj != null && errorString == null)
                 {
                     return new JsonResult(obj);
@@ -149,8 +149,8 @@ namespace MatakAPI.Controllers
             string errorString = null;
             try
             {
-                RouteModel RouteMethods = new RouteModel();
-                List<Route> obj = RouteMethods.GetAllRoutesByOrgId(Orgid, out errorString);
+                RouteModel routeModel = new RouteModel();
+                List<Route> obj = routeModel.GetAllRoutesByOrgId(Orgid, out errorString);
                 return new JsonResult(obj);
             }
             catch(Exception e)

@@ -23,8 +23,8 @@ namespace MatakAPI.Controllers
             try
             {
                 List<UsrObj> UsrObjects = new List<UsrObj>();
-                UserModel UserModel = new UserModel();
-                List<User> obj = UserModel.getAllUsers(out errorString);
+                UserModel userModel = new UserModel();
+                List<User> obj = userModel.getAllUsers(out errorString);
                 foreach (var item in obj)
                 {
                     UsrObjects.Add(new UsrObj(item));
@@ -43,8 +43,8 @@ namespace MatakAPI.Controllers
             string errorString = null;
             try
             {
-                UserModel UserModel = new UserModel();
-                List<User> obj = UserModel.getAllUsers(out errorString);
+                UserModel userModel = new UserModel();
+                List<User> obj = userModel.getAllUsers(out errorString);
 
                 return new JsonResult(obj);
             }
@@ -63,8 +63,8 @@ namespace MatakAPI.Controllers
             {
                 int id = Int32.Parse(User.Claims.FirstOrDefault(x => x.Type.Equals("UserId")).Value);
                 User usr = new User();
-                UserModel UserModel = new UserModel();
-                List<User> obj = UserModel.getAllUsers(out errorString);
+                UserModel userModel = new UserModel();
+                List<User> obj = userModel.getAllUsers(out errorString);
                 foreach (var item in obj)
                 {
                     if (item.UserId == id)

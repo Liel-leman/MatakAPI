@@ -25,8 +25,8 @@ namespace MatakAPI.Controllers
             try
             {
                 List<OrgObj> OrgObjects = new List<OrgObj>();
-                OrganizationModel orgCont = new OrganizationModel();
-                List<Organization> obj = orgCont.getAllOrganizations(out errorString);
+                OrganizationModel orgModel = new OrganizationModel();
+                List<Organization> obj = orgModel.getAllOrganizations(out errorString);
                 foreach (var org in obj)
                 {
                     OrgObjects.Add(new OrgObj(org));

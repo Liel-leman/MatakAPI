@@ -21,8 +21,8 @@ namespace MatakAPI.Controllers
             string errorString = null;
             try
             {
-                StatusModel StatusModel = new StatusModel();
-                List<Status> obj = StatusModel.getAllStati(out errorString);
+                StatusModel statusModel = new StatusModel();
+                List<Status> obj = statusModel.getAllStati(out errorString);
                 return new JsonResult(obj);
             }
             catch (Exception e)

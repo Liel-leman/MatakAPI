@@ -13,6 +13,7 @@ namespace MatakAPI.Controllers
 {
     public class AuthController : Controller
     {
+  
         [HttpPost("token")]
         public IActionResult Token()
         {
@@ -50,7 +51,7 @@ namespace MatakAPI.Controllers
                         var token = new JwtSecurityToken(
                             issuer: "http://212.179.205.15/MatakAPI",
                             audience: "http://212.179.205.15/MatakAPI",
-                            expires: DateTime.Now.AddMinutes(30),
+                            expires: DateTime.Now.AddDays(3),
                             claims: claimsdata,
                             signingCredentials: signInCred
                             );
