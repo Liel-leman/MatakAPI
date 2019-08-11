@@ -35,7 +35,7 @@ namespace MatakAPI
                 };
             });
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
-            services.AddMvc(options => {options.InputFormatters.Insert(0, new RawJsonBodyInputFormatter()); });//translating Json to string
+           // services.AddMvc(options => {options.InputFormatters.Insert(0, new RawJsonBodyInputFormatter()); });//translating Json to string
           
         }
       

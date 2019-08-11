@@ -13,7 +13,7 @@ namespace MatakAPI.Controllers
         [HttpGet("")]
         public ActionResult<IEnumerable<string>> startPage()
         {
-            return Ok(
+           return Ok(
                 "** Welcome to matak API ** "
                  + System.Environment.NewLine +
                 " https://documenter.getpostman.com/view/7173606/S1LsXpsP - Rest API for Matak Project fully described "

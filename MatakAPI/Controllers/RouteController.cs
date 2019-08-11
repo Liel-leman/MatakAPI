@@ -18,27 +18,16 @@ namespace MatakAPI.Controllers
     [ApiController]
     public class RouteController : Controller
     {
-        /*
-        // POST: /api/Route/setGeoJSON
-        [HttpGet("setGeoJSON")]
-        [HttpPost]
-        public IActionResult setGeoJSON([FromBody]string geojson)
-        {
-            return Ok(geojson);
-        }
-
-        */
-        // POST: /api/Route/setRoute
+        
         [HttpPost("SetRoute")]
         public IActionResult setRoute([FromBody] Route newRoute)
         {
-
+            int count = 0;
             string errorString = null;
             try
             {
                 newRoute.OrgId = Int32.Parse(User.Claims.FirstOrDefault(x => x.Type.Equals("OrgId")).Value);
                 newRoute.CreatedByUserId = Int32.Parse(User.Claims.FirstOrDefault(x => x.Type.Equals("UserId")).Value);
-                int count = 0;
                 RouteModel RouteModel = new RouteModel();
                 OrganizationModel orgModel = new OrganizationModel();
                 count = RouteModel.GetRoutesCountByOrgId(newRoute.OrgId, out errorString);
@@ -65,7 +54,9 @@ namespace MatakAPI.Controllers
             {
                 RouteModel routeModel = new RouteModel();
                 if (newRoute.RouteId == 0)
-                    return BadRequest("please enter ID");
+                    return BadRequest("please enter 'RouteID'");
+                if(newRoute.StatusId== 4)//in case the route status is 'approved' , we update the approve user in route attribute
+                    newRoute.ApprovedByUserId= Int32.Parse(User.Claims.FirstOrDefault(x => x.Type.Equals("UserId")).Value);
                 newRoute.RouteId = routeModel.UpdateRouteId(newRoute, out errorString);
                 RouteObj obj = new RouteObj(newRoute);
                 return new JsonResult(obj);
@@ -163,6 +154,7 @@ namespace MatakAPI.Controllers
         [HttpGet]
         public IActionResult GetRouteByCreatorID(int userid)
         {
+            
             string errorString = null;
             try
             {
