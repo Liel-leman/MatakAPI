@@ -14,7 +14,7 @@ ducomented in PostMAN:
 ### Features
 - Authentications by JWT Tokens 
 - Files support
-- GeoJason support
+- GeoJson support
 
 ---
 
