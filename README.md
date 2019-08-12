@@ -5,6 +5,7 @@ The purpose of the project is to develop a geographical component
 (implementation) tool for documented collaboration with international organizations.
 
 the api is developed in APS.NET CORE 2.2 the purpose is to be restAPI.
+
 ducomented in PostMAN:
 
 [LINK](https://documenter.getpostman.com/view/7173606/S1LsXpsP)
