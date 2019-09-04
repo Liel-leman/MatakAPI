@@ -6,14 +6,18 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.IdentityModel.Tokens;
+using Newtonsoft.Json;
+using System.IO;
 using System.Text;
 namespace MatakAPI
 {
     public class Startup
     {
+       
         public Startup(IConfiguration configuration)
         {
             Configuration = configuration;
+            
         }
 
         public IConfiguration Configuration { get; }
@@ -21,6 +25,8 @@ namespace MatakAPI
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            DbconfigReader DBread = JsonConvert.DeserializeObject<DbconfigReader>(File.ReadAllText(@"DbConfig.json"));
+
             services.AddCors();
             services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).AddJwtBearer(options =>
             {
@@ -31,12 +37,10 @@ namespace MatakAPI
                     ValidateIssuerSigningKey = true,
                     ValidIssuer = "http://212.179.205.15/MatakAPI",
                     ValidAudience = "http://212.179.205.15/MatakAPI",
-                    IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes("secretPasshfkdshkjhdskfghjg"))
+                    IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(DBread.JWTencoding))
                 };
             });
-            services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
-           // services.AddMvc(options => {options.InputFormatters.Insert(0, new RawJsonBodyInputFormatter()); });//translating Json to string
-          
+            services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2); 
         }
       
 

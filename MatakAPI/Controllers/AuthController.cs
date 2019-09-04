@@ -5,9 +5,12 @@ using System.Linq;
 using System.Security.Claims;
 using System.Text;
 using System.Threading.Tasks;
+using MatakAPI.Models;
 using MatakDBConnector;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.IdentityModel.Tokens;
+using Newtonsoft.Json;
+using System.IO;
 
 namespace MatakAPI.Controllers
 {
@@ -17,6 +20,7 @@ namespace MatakAPI.Controllers
         [HttpPost("token")]
         public IActionResult Token()
         {
+            DbconfigReader DBread = JsonConvert.DeserializeObject<DbconfigReader>(System.IO.File.ReadAllText(@"DbConfig.json"));
             string errorString = null;
             try
             {
@@ -46,7 +50,7 @@ namespace MatakAPI.Controllers
                                             ,new Claim("PermissionId", userAuth.PermissionId.ToString())
                                             ,new Claim("UserId", userAuth.UserId.ToString())
                         };
-                        var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes("secretPasshfkdshkjhdskfghjg"));
+                        var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(DBread.JWTencoding));
                         var signInCred = new SigningCredentials(key, SecurityAlgorithms.HmacSha256Signature);
                         var token = new JwtSecurityToken(
                             issuer: "http://212.179.205.15/MatakAPI",
