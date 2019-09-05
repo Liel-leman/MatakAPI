@@ -20,9 +20,10 @@ namespace MatakAPI.Controllers
             string errorString = null;
             try
             {
+                newLandmark.CreatedByUserId = Int32.Parse(User.Claims.FirstOrDefault(x => x.Type.Equals("UserId")).Value);
                 LandmarkModel LandmarkModel = new LandmarkModel();
                 OrganizationModel orgModel = new OrganizationModel();
-
+                
                 newLandmark.LandmarkId = LandmarkModel.AddNewLandmark(newLandmark, out errorString);
 
                 return new JsonResult(LandmarkModel);
@@ -44,10 +45,9 @@ namespace MatakAPI.Controllers
                 LandmarkModel landmarkModel = new LandmarkModel();
                 if (newLandmark.LandmarkId == 0)
                     return BadRequest("please enter 'LandmarkID'");
+                newLandmark.UpdatedByUserId = Int32.Parse(User.Claims.FirstOrDefault(x => x.Type.Equals("UserId")).Value);
                 newLandmark.LandmarkId = landmarkModel.UpdateLandmarkId(newLandmark, out errorString);
-
                 return new JsonResult(newLandmark);
-
             }
             catch (Exception e)
             {
@@ -55,29 +55,6 @@ namespace MatakAPI.Controllers
             }
 
         }
-
-
-        // POST: /api/Landmark/GetAll
-        [HttpGet("GetAll")]
-        public IActionResult GetAllLandmarks()
-        {
-
-            string errorString = null;
-            try
-            {
-                LandmarkModel landmarkModel = new LandmarkModel();
-                List<Landmark> obj = landmarkModel.GetAllLandmarks(out errorString);
-                return new JsonResult(obj);
-            }
-            catch (Exception e)
-            {
-                return Ok(e + "\n" + errorString);
-            }
-
-
-
-        }
-
         // Get: /api/Landmark/5
         [HttpGet("{id}")]
         public IActionResult GetLandmark(int id)
@@ -103,5 +80,47 @@ namespace MatakAPI.Controllers
                 return Ok(e + "\n" + errorString);
             }
         }
+
+        // POST: /api/Landmark/GetAll
+        [HttpGet("GetAll")]
+        public IActionResult GetAllLandmarks()
+        {
+
+            string errorString = null;
+            try
+            {
+                LandmarkModel landmarkModel = new LandmarkModel();
+                List<Landmark> obj = landmarkModel.GetAllLandmarks(out errorString);
+                return new JsonResult(obj);
+            }
+            catch (Exception e)
+            {
+                return Ok(e + "\n\n Exception FROM DB \n" + errorString);
+            }
+        }
+
+
+        [Route("GetLandmarksByCreatorID/{cratedUserId}")]
+        [HttpGet]
+        public IActionResult GetLandmarksByCreatorID(int cratedUserId)
+        {
+
+            string errorString = null;
+            try
+            {
+                LandmarkModel LandmarkMethods = new LandmarkModel();
+                List<Landmark> obj = LandmarkMethods.GetAllLandmarksByCreatorId(cratedUserId, out errorString);
+                return new JsonResult(obj);
+            }
+            catch (Exception e)
+            {
+                return Ok(e + "\n" + errorString);
+            }
+        }
+
+
+
+
+
     }
 }
