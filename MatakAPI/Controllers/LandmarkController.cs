@@ -16,25 +16,24 @@ namespace MatakAPI.Controllers
         [HttpPost("SetLandmark")]
         public IActionResult setLandmark([FromBody] Landmark newLandmark)
         {
-            int count = 0;
             string errorString = null;
             try
             {
                 newLandmark.CreatedByUserId = Int32.Parse(User.Claims.FirstOrDefault(x => x.Type.Equals("UserId")).Value);
                 LandmarkModel LandmarkModel = new LandmarkModel();
                 OrganizationModel orgModel = new OrganizationModel();
-                
+
                 newLandmark.LandmarkId = LandmarkModel.AddNewLandmark(newLandmark, out errorString);
 
-                return new JsonResult(LandmarkModel);
+                return new JsonResult(newLandmark.LandmarkId);
             }
             catch (Exception e)
             {
-                return Ok(e + "\n" + errorString);
+                return BadRequest(e + "\n" + errorString);
             }
 
         }
-
+        //TO DO --- update oleg on error
         [HttpPost("UpdateLandmark")]
         public IActionResult UpdateLandmark([FromBody] Landmark newLandmark)
         {
@@ -51,7 +50,7 @@ namespace MatakAPI.Controllers
             }
             catch (Exception e)
             {
-                return Ok(e + "\n" + errorString);
+                return BadRequest(e + "\n" + errorString);
             }
 
         }
@@ -95,7 +94,7 @@ namespace MatakAPI.Controllers
             }
             catch (Exception e)
             {
-                return Ok(e + "\n\n Exception FROM DB \n" + errorString);
+                return BadRequest(e + "\n\n Exception FROM DB \n" + errorString);
             }
         }
 
@@ -114,7 +113,7 @@ namespace MatakAPI.Controllers
             }
             catch (Exception e)
             {
-                return Ok(e + "\n" + errorString);
+                return BadRequest(e + "\n" + errorString);
             }
         }
 

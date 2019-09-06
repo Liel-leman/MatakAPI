@@ -20,7 +20,7 @@ namespace MatakAPI.Controllers
         [HttpPost("token")]
         public IActionResult Token()
         {
-            DbconfigReader DBread = JsonConvert.DeserializeObject<DbconfigReader>(System.IO.File.ReadAllText(@"DbConfig.json"));
+            //DbconfigReader DBread = JsonConvert.DeserializeObject<DbconfigReader>(System.IO.File.ReadAllText(@"DbConfig.json"));//***problem with the serv
             string errorString = null;
             try
             {
@@ -50,12 +50,13 @@ namespace MatakAPI.Controllers
                                             ,new Claim("PermissionId", userAuth.PermissionId.ToString())
                                             ,new Claim("UserId", userAuth.UserId.ToString())
                         };
-                        var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(DBread.JWTencoding));
+                        //var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(DBread.JWTencoding));//***problem with the serv
+                        var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes("secretPasshfkdshkjhdskfghjg"));
                         var signInCred = new SigningCredentials(key, SecurityAlgorithms.HmacSha256Signature);
                         var token = new JwtSecurityToken(
                             issuer: "http://212.179.205.15/MatakAPI",
                             audience: "http://212.179.205.15/MatakAPI",
-                            expires: DateTime.Now.AddDays(3),
+                            expires: DateTime.Now.AddMinutes(30),
                             claims: claimsdata,
                             signingCredentials: signInCred
                             );

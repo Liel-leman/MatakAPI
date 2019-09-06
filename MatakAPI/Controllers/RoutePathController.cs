@@ -56,6 +56,7 @@ namespace MatakAPI.Controllers
             string errorString = null;
             try
             {
+                newRoutePath.UpdatedByUserId = Int32.Parse(User.Claims.FirstOrDefault(x => x.Type.Equals("UserId")).Value);
                 RoutePathModel routePathModel = new RoutePathModel();
                 newRoutePath.Updated = DateTime.Now;
                 newRoutePath.RoutePathId = routePathModel.UpdateRoutePathByRoutePathId(newRoutePath, out errorString);
