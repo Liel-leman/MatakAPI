@@ -10,16 +10,51 @@ using MatakAPI.Models;
 using Newtonsoft.Json;
 using GeoJSON.Net.Feature;
 using Microsoft.AspNetCore.Authorization;
+using System.IO;
 
 namespace MatakAPI.Controllers
 {
     [Authorize]
-    [Route("api/Route")]
+    [Route("api/[controller]")]
     [ApiController]
     public class RouteController : Controller
     {
-        
+
         [HttpPost("SetRoute")]
+        public async Task<IActionResult> setRoute([ModelBinder(BinderType = typeof(JsonModelBinder))] Route newRoute, IList<IFormFile> files)
+        {
+
+            var routeModel = new RouteModel();
+            var organizationModel = new OrganizationModel();
+            int count = 0;
+            string errorString = null;
+            try
+            {
+
+                //route
+                newRoute.OrgId = Int32.Parse(User.Claims.FirstOrDefault(x => x.Type.Equals("OrgId")).Value);
+                newRoute.CreatedByUserId = Int32.Parse(User.Claims.FirstOrDefault(x => x.Type.Equals("UserId")).Value);
+                count = routeModel.GetRoutesCountByOrgId(newRoute.OrgId, out errorString);
+                newRoute.Name = organizationModel.getOrganizationById(newRoute.OrgId, out errorString).Name;
+                newRoute.Name += " " + (count + 1);// name = OragnizationName+" number" ex: "UNDSS 32"
+
+                newRoute.RouteId = routeModel.AddNewRoute(newRoute, out errorString);//route with the new params is added
+                RouteObj obj = new RouteObj(newRoute);
+
+                await new FileHelper().FilesAsync(newRoute, files, false);
+                return new JsonResult(obj);
+            }
+            catch (Exception e)
+            {
+                return Ok(e + "\n" + errorString);
+            }
+        }
+
+        
+
+
+
+        /* [HttpPost("SetRoute")]
         public IActionResult setRoute([FromBody] Route newRoute)
         {
             int count = 0;
@@ -44,6 +79,7 @@ namespace MatakAPI.Controllers
             }
 
         }
+        */
 
         [HttpPost("UpdateRoute")]
         public IActionResult UpdateRoute([FromBody] Route newRoute)
@@ -186,6 +222,30 @@ namespace MatakAPI.Controllers
                 return Ok(e + "\n" + errorString);
             }
         }
+
+        [Route("GetAllDucomentsByID/{routeID}")]
+        [HttpGet]
+        public IActionResult GetAllDucomentsByID(int routeID)
+        {
+            string errorString = null;
+            try
+            {
+                List<String> obj = new List<String>();
+                List<Document> documents  =  new DocumentModel().GetAllDocumentsByRouteLanmdmarkId(routeID,false,out errorString);
+                foreach(var document in documents)
+                {
+                    obj.Add(document.Filename);//TODO OLEG give the full file name
+                }
+                return new JsonResult(obj);
+
+
+            }
+            catch (Exception e)
+            {
+                return Ok(e + "\n" + errorString);
+            }
+        }
+
 
     }
 }

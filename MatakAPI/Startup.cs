@@ -25,19 +25,32 @@ namespace MatakAPI
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            DbconfigReader DBread = JsonConvert.DeserializeObject<DbconfigReader>(File.ReadAllText(@"DbConfig.json"));
+            //DbconfigReader DBread = JsonConvert.DeserializeObject<DbconfigReader>(File.ReadAllText(@"DbConfig.json"));//***problem with the serv
 
-            services.AddCors();
+            services.AddCors(options =>
+            {
+                options.AddPolicy("AllowAll",
+                    builder =>
+                    {
+                        builder
+                        .AllowAnyOrigin()
+                        .AllowAnyMethod()
+                        .AllowAnyHeader()
+                        .AllowCredentials();
+                    });
+            });
             services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).AddJwtBearer(options =>
             {
                 options.TokenValidationParameters = new TokenValidationParameters
                 {
+
                     ValidateIssuer = true,
                     ValidateAudience = true,
                     ValidateIssuerSigningKey = true,
                     ValidIssuer = "http://212.179.205.15/MatakAPI",
                     ValidAudience = "http://212.179.205.15/MatakAPI",
-                    IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(DBread.JWTencoding))
+                    IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(Configuration["SecretKey"]))
+
                 };
             });
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2); 
@@ -57,16 +70,14 @@ namespace MatakAPI
                 app.UseHsts();
             }
 
-            app.UseCors(options => options.AllowAnyOrigin()
-                                         .AllowAnyMethod()
-                                         .AllowAnyHeader()
-                                         .AllowCredentials());
-
+            app.UseCors("AllowAll");
             app.UseHttpsRedirection();
             app.UseAuthentication();
             app.UseMvc();
+           
 
-            
+
+
         }
     }
 }

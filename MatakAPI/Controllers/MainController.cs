@@ -17,6 +17,8 @@ namespace MatakAPI.Controllers
                 "** Welcome to matak API ** "
                  + System.Environment.NewLine +
                 " https://documenter.getpostman.com/view/7173606/S1LsXpsP - Rest API for Matak Project fully described "
+                 + System.Environment.NewLine +
+                " https://documenter.getpostman.com/view/8877199/SVmyQH4k - Part 2"
             );
         }
     }
