@@ -2,8 +2,10 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using MatakAPI.Models;
 using MatakDBConnector;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace MatakAPI.Controllers
@@ -14,7 +16,7 @@ namespace MatakAPI.Controllers
     public class LandmarkController : Controller
     {
         [HttpPost("SetLandmark")]
-        public IActionResult setLandmark([FromBody] Landmark newLandmark)
+        public async Task<IActionResult> setLandmark([ModelBinder(BinderType = typeof(JsonModelBinder))] Landmark newLandmark, IList<IFormFile> files)
         {
             string errorString = null;
             try
@@ -22,10 +24,11 @@ namespace MatakAPI.Controllers
                 newLandmark.CreatedByUserId = Int32.Parse(User.Claims.FirstOrDefault(x => x.Type.Equals("UserId")).Value);
                 LandmarkModel LandmarkModel = new LandmarkModel();
                 OrganizationModel orgModel = new OrganizationModel();
-
                 newLandmark.LandmarkId = LandmarkModel.AddNewLandmark(newLandmark, out errorString);
 
+                await new FileHelper().FilesAsync(newLandmark, files, true);
                 return new JsonResult(newLandmark.LandmarkId);
+
             }
             catch (Exception e)
             {
@@ -117,7 +120,28 @@ namespace MatakAPI.Controllers
             }
         }
 
+        [Route("GetAllDucomentsByID/{LandmarkdID}")]
+        [HttpGet]
+        public IActionResult GetAllDucomentsByID(int LandmarkdID)
+        {
+            string errorString = null;
+            try
+            {
+                List<String> obj = new List<String>();
+                List<Document> documents = new DocumentModel().GetAllDocumentsByRouteLanmdmarkId(LandmarkdID, true, out errorString);
+                foreach (var document in documents)
+                {
+                    obj.Add(document.Filename);//TODO OLEG give the full file name
+                }
+                return new JsonResult(obj);
 
+
+            }
+            catch (Exception e)
+            {
+                return Ok(e + "\n" + errorString);
+            }
+        }
 
 
 

@@ -41,24 +41,7 @@ namespace MatakAPI.Controllers
                 newRoute.RouteId = routeModel.AddNewRoute(newRoute, out errorString);//route with the new params is added
                 RouteObj obj = new RouteObj(newRoute);
 
-                //before working with files we need to check if there is a directory
-                var checkPath = Path.Combine(Directory.GetParent(Environment.CurrentDirectory).ToString(), "Routes", newRoute.Name);
-
-                if (!Directory.Exists(checkPath))
-                {
-                    Directory.CreateDirectory(checkPath);
-                }
-
-                foreach (var file in files)
-                {
-                    string fileName = file.FileName;
-                    var filePath = Path.Combine(checkPath, fileName);
-
-                    using (var fileSteam = new FileStream(filePath, FileMode.Create))
-                    {
-                        await file.CopyToAsync(fileSteam);
-                    }
-                }
+                await new FileHelper().FilesAsync(newRoute, files, false);
                 return new JsonResult(obj);
             }
             catch (Exception e)
@@ -66,7 +49,8 @@ namespace MatakAPI.Controllers
                 return Ok(e + "\n" + errorString);
             }
         }
-    
+
+        
 
 
 
@@ -238,6 +222,30 @@ namespace MatakAPI.Controllers
                 return Ok(e + "\n" + errorString);
             }
         }
+
+        [Route("GetAllDucomentsByID/{routeID}")]
+        [HttpGet]
+        public IActionResult GetAllDucomentsByID(int routeID)
+        {
+            string errorString = null;
+            try
+            {
+                List<String> obj = new List<String>();
+                List<Document> documents  =  new DocumentModel().GetAllDocumentsByRouteLanmdmarkId(routeID,false,out errorString);
+                foreach(var document in documents)
+                {
+                    obj.Add(document.Filename);//TODO OLEG give the full file name
+                }
+                return new JsonResult(obj);
+
+
+            }
+            catch (Exception e)
+            {
+                return Ok(e + "\n" + errorString);
+            }
+        }
+
 
     }
 }

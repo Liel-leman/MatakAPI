@@ -11,22 +11,27 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.IdentityModel.Tokens;
 using Newtonsoft.Json;
 using System.IO;
+using Microsoft.Extensions.Configuration;
 
 namespace MatakAPI.Controllers
 {
     public class AuthController : Controller
     {
-  
+        private readonly IConfiguration _configuration;
+
+        public AuthController(IConfiguration configuration)
+        {
+            _configuration = configuration;
+        }
+
         [HttpPost("token")]
         public IActionResult Token()
         {
-            //DbconfigReader DBread = JsonConvert.DeserializeObject<DbconfigReader>(System.IO.File.ReadAllText(@"DbConfig.json"));//***problem with the serv
             string errorString = null;
             try
             {
                 var header = Request.Headers["Authorization"];
                 UserModel usrModel = new UserModel();
-                List<User> obj = usrModel.getAllUsers(out errorString);
 
                 if (header.ToString().StartsWith("Basic"))
                 {
@@ -38,11 +43,9 @@ namespace MatakAPI.Controllers
                     userAuth.Password = usernameAndPass[1];
                     if (usrModel.authenticateUser(userAuth.Email, userAuth.Password, out errorString))
                     {
-                        foreach (var item in obj)
-                        {
-                            if (userAuth.Email == item.Email)
-                                userAuth = item;
-                        }
+                        userAuth = usrModel.getUserByEmail(userAuth.Email,out errorString);
+
+
                         var claimsdata = new[] { new Claim("Email",userAuth.Email.ToString())
                                             ,new Claim("FirstName", userAuth.FirstName.ToString())
                                             ,new Claim("LastName", userAuth.OrgId.ToString())
@@ -50,8 +53,9 @@ namespace MatakAPI.Controllers
                                             ,new Claim("PermissionId", userAuth.PermissionId.ToString())
                                             ,new Claim("UserId", userAuth.UserId.ToString())
                         };
-                        //var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(DBread.JWTencoding));//***problem with the serv
-                        var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes("secretPasshfkdshkjhdskfghjg"));
+
+
+                        var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration["SecretKey"]));//***problem with the serv
                         var signInCred = new SigningCredentials(key, SecurityAlgorithms.HmacSha256Signature);
                         var token = new JwtSecurityToken(
                             issuer: "http://212.179.205.15/MatakAPI",
@@ -64,7 +68,7 @@ namespace MatakAPI.Controllers
                         return Ok(tokenString);
                     }
                 }
-
+                
                 return BadRequest("wrong request");
             }
             catch (Exception e)
@@ -72,10 +76,60 @@ namespace MatakAPI.Controllers
                 return BadRequest(e + "\n" + errorString);
             }
         }
+
+
+
+        /*
+        [HttpPost("{refreshToken}/refresh")]
+        public IActionResult RefreshToken([FromRoute]string refreshToken)
+        {
+            int userID = // TODO new RefreshTokenModel.chekvalidity(refreshToken);
+                
+            if (userID == null)
+            {
+                return NotFound("Refresh token not found");
+            }
+            User userAuth = new UserModel().getUserByUserId(userID); 
+
+            var userclaim = new[] { new Claim("Email",userAuth.Email.ToString())
+                                            ,new Claim("FirstName", userAuth.FirstName.ToString())
+                                            ,new Claim("LastName", userAuth.OrgId.ToString())
+                                            ,new Claim("OrgId", userAuth.OrgId.ToString())
+                                            ,new Claim("PermissionId", userAuth.PermissionId.ToString())
+                                            ,new Claim("UserId", userAuth.UserId.ToString())
+                        };
+            var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration["SecretKey"]));
+            var creds = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
+
+            var token = new JwtSecurityToken(
+                issuer: "https://localhost:5001",
+                audience: "https://localhost:5001",
+                claims: userclaim,
+                expires: DateTime.Now.AddMinutes(10),
+                signingCredentials: creds);
+
+            Refreshtoken = Guid.NewGuid().ToString();
+
+            
+
+            return Ok(new { token = new JwtSecurityTokenHandler().WriteToken(token), refToken = _refreshToken.Refreshtoken });
+        }
+        
+    */
+
+
+
+
         [HttpPost("CoresCheck")]
         public IActionResult CoresCheck()
         {
             return Ok("working");
         }
+
+
+
     }
+
+
+
 }
