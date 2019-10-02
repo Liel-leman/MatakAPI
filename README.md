@@ -9,6 +9,7 @@ the api is developed in APS.NET CORE 2.2 as RestAPI, that collaborates with lib 
 documented in PostMAN:
 
 [LINK-Part1](https://documenter.getpostman.com/view/7173606/S1LsXpsP)
+
 [LINK-Part2](https://documenter.getpostman.com/view/8877199/SVmyQH4k)
 
 
