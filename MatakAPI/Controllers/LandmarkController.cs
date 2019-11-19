@@ -15,6 +15,23 @@ namespace MatakAPI.Controllers
     [ApiController]
     public class LandmarkController : Controller
     {
+
+        [HttpPost("MultipartTest")]
+        public IActionResult MultipartTest([ModelBinder(BinderType = typeof(JsonModelBinder))] Landmark newLandmark)
+        {
+            try
+            {
+                return new JsonResult(newLandmark.Name);
+
+            }
+            catch (Exception e)
+            {
+                return BadRequest(e);
+            }
+
+        }
+
+
         [HttpPost("SetLandmark")]
         public async Task<IActionResult> setLandmark([ModelBinder(BinderType = typeof(JsonModelBinder))] Landmark newLandmark, IList<IFormFile> files)
         {
@@ -120,18 +137,22 @@ namespace MatakAPI.Controllers
             }
         }
 
-        [Route("GetAllDucomentsByID/{LandmarkdID}")]
+        [Route("GetAllDocumentsByID/{LandmarkdID}")]
         [HttpGet]
-        public IActionResult GetAllDucomentsByID(int LandmarkdID)
+        public IActionResult GetAllDocumentsByID(int LandmarkdID)
         {
             string errorString = null;
             try
             {
-                List<String> obj = new List<String>();
+                List<FileObj> obj = new List<FileObj>();
                 List<Document> documents = new DocumentModel().GetAllDocumentsByRouteLanmdmarkId(LandmarkdID, true, out errorString);
                 foreach (var document in documents)
                 {
-                    obj.Add(document.Filename);//TODO OLEG give the full file name
+                    FileObj temp = new FileObj();
+                    temp.FullName = new DocumentModel().GetDocumentHandleByDocId(document.DocumentId, out errorString);
+                    temp.Name= document.Filename;
+
+                    obj.Add(temp) ;
                 }
                 return new JsonResult(obj);
 

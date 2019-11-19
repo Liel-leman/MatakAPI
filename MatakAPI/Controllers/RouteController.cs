@@ -19,7 +19,7 @@ namespace MatakAPI.Controllers
     [ApiController]
     public class RouteController : Controller
     {
-
+        /*
         [HttpPost("SetRoute")]
         public async Task<IActionResult> setRoute([ModelBinder(BinderType = typeof(JsonModelBinder))] Route newRoute, IList<IFormFile> files)
         {
@@ -49,12 +49,12 @@ namespace MatakAPI.Controllers
                 return Ok(e + "\n" + errorString);
             }
         }
-
+        */
         
 
 
 
-        /* [HttpPost("SetRoute")]
+         [HttpPost("SetRoute")]
         public IActionResult setRoute([FromBody] Route newRoute)
         {
             int count = 0;
@@ -79,7 +79,7 @@ namespace MatakAPI.Controllers
             }
 
         }
-        */
+        
 
         [HttpPost("UpdateRoute")]
         public IActionResult UpdateRoute([FromBody] Route newRoute)
@@ -223,18 +223,22 @@ namespace MatakAPI.Controllers
             }
         }
 
-        [Route("GetAllDucomentsByID/{routeID}")]
+        [Route("GetAllDocumentsByID/{routeID}")]
         [HttpGet]
-        public IActionResult GetAllDucomentsByID(int routeID)
+        public IActionResult GetAllDocumentsByID(int routeID)
         {
             string errorString = null;
             try
             {
-                List<String> obj = new List<String>();
+                List<FileObj> obj = new List<FileObj>();
                 List<Document> documents  =  new DocumentModel().GetAllDocumentsByRouteLanmdmarkId(routeID,false,out errorString);
                 foreach(var document in documents)
                 {
-                    obj.Add(document.Filename);//TODO OLEG give the full file name
+                    FileObj temp = new FileObj();
+                    temp.FullName = new DocumentModel().GetDocumentHandleByDocId(document.DocumentId, out errorString);
+                    temp.Name = document.Filename;
+
+                    obj.Add(temp);
                 }
                 return new JsonResult(obj);
 

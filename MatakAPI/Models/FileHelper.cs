@@ -10,7 +10,7 @@ namespace MatakAPI.Models
 {
     public class FileHelper
     {
-        //private String directoryString = @"C:\Users\ליאל\source\repos\MatakAPI\MatakAPI\Files";//hard coded local
+      //  private String directoryString = @"C:\Users\ליאל\source\repos\MatakAPI\MatakAPI\Files";//hard coded local
         private String directoryString = @"F:\GIS\Matak\Files";// hard codded server
         public async Task FilesAsync(Route newRoute,IList<IFormFile> files,Boolean isLandmark)
         {
