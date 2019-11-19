@@ -78,7 +78,7 @@ namespace MatakAPI.Controllers
         }
 
 
-
+        //TODO refresh TOKEN
         /*
         [HttpPost("{refreshToken}/refresh")]
         public IActionResult RefreshToken([FromRoute]string refreshToken)
@@ -116,18 +116,6 @@ namespace MatakAPI.Controllers
         }
         
     */
-
-
-
-
-        [HttpPost("CoresCheck")]
-        public IActionResult CoresCheck()
-        {
-            return Ok("working");
-        }
-
-
-
     }
 
 
