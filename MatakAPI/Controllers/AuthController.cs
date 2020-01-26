@@ -68,8 +68,7 @@ namespace MatakAPI.Controllers
                         return Ok(tokenString);
                     }
                 }
-                
-                return BadRequest("wrong request");
+                return Ok("False");
             }
             catch (Exception e)
             {

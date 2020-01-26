@@ -19,7 +19,7 @@ namespace MatakAPI.Controllers
     [ApiController]
     public class RouteController : Controller
     {
-        /*
+        /*//ver 2 
         [HttpPost("SetRoute")]
         public async Task<IActionResult> setRoute([ModelBinder(BinderType = typeof(JsonModelBinder))] Route newRoute, IList<IFormFile> files)
         {
@@ -53,8 +53,8 @@ namespace MatakAPI.Controllers
         
 
 
-
-         [HttpPost("SetRoute")]
+//v1
+        [HttpPost("SetRoute")]
         public IActionResult setRoute([FromBody] Route newRoute)
         {
             int count = 0;

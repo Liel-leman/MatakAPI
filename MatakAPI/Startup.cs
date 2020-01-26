@@ -25,8 +25,6 @@ namespace MatakAPI
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            //DbconfigReader DBread = JsonConvert.DeserializeObject<DbconfigReader>(File.ReadAllText(@"DbConfig.json"));//***problem with the serv
-
             services.AddCors(options =>
             {
                 options.AddPolicy("AllowAll",
