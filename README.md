@@ -1,8 +1,7 @@
 # MatakAPI
 
 ## About MatakApp
-The purpose of the project is to develop a geographical component
-(implementation) tool for documented collaboration with international organizations.
+A joint HIT & Matak (IDF) & Humanitarian agencies GIS platform, a geographical component tool for documented collaboration with international organizations.
 
 the api is developed in APS.NET CORE 2.2 as RestAPI, that collaborates with lib file that manage the DB
 
